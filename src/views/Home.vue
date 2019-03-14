@@ -20,10 +20,10 @@
               <i class="fa fa-pencil-square-o"></i>
               <span slot="title">博客</span>
             </el-menu-item>
-            <el-menu-item index="/test">
+            <!-- <el-menu-item index="/test">
               <i class="fa fa-globe"></i>
               <span slot="title">测试</span>
-            </el-menu-item>
+            </el-menu-item> -->
           </el-menu>
         </el-scrollbar>
       </el-aside>
