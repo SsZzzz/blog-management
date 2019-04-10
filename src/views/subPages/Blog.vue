@@ -4,7 +4,7 @@
       <input class="title" type="text" v-model="title" placeholder="文章标题">
       <div class="titleImg">
         <el-upload
-          action="/management/saveImage"
+          action="/blog-serve/management/saveImage"
           :show-file-list="false"
           :on-success="handleTitleImageSuccess"
           :before-upload="beforeUpload"
@@ -32,7 +32,7 @@
         </div>
         <div class="picture">
           <el-upload
-            action="/management/saveImage"
+            action="/blog-serve/management/saveImage"
             :show-file-list="false"
             :on-success="handleSuccess"
             :before-upload="beforeUpload"
