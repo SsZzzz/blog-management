@@ -44,7 +44,7 @@
     </div>
     <div class="show" v-show="!changed">
       <div class="showContent">
-        <div v-html="compiledMarkdown"></div>
+        <div v-html="compiledMarkdown" v-highlight></div>
       </div>
       <div class="showFooter">
         <div class="save" @click="save">
