@@ -57,8 +57,10 @@
 <script>
 import marked from "marked";
 export default {
+  name: "blog",
   data() {
     return {
+      id: 0,
       title: "",
       titleImage: "",
       content: "",
@@ -66,6 +68,14 @@ export default {
       labelList: [],
       label: []
     };
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      if (!(!vm.id && !Object.keys(to.query).length)) {
+        vm.id = to.query.id || vm.id;
+        vm.getArticle(vm.id);
+      }
+    });
   },
   created() {
     this.getLabel();
@@ -85,22 +95,43 @@ export default {
         this.$message.error("有未填写的内容");
         return;
       }
-      this.$api
-        .saveArticle({
-          title: this.title,
-          titleImage: this.titleImage,
-          content: this.content,
-          label: this.label
-        })
-        .then(res => {
-          let { code, message } = res.data;
-          if (code === 1) {
-            this.$message({
-              message,
-              type: "success"
-            });
-          }
-        });
+      if (this.id) {
+        this.$api
+          .updateArticle({
+            title: this.title,
+            titleImage: this.titleImage,
+            content: this.content,
+            label: this.label,
+            id: this.id
+          })
+          .then(res => {
+            let { code, message } = res.data;
+            if (code === 1) {
+              this.$message({
+                message,
+                type: "success"
+              });
+            }
+          });
+      } else {
+        this.$api
+          .saveArticle({
+            title: this.title,
+            titleImage: this.titleImage,
+            content: this.content,
+            label: this.label
+          })
+          .then(res => {
+            let { code, message, data } = res.data;
+            if (code === 1) {
+              this.$message({
+                message,
+                type: "success"
+              });
+              this.id = data.id;
+            }
+          });
+      }
     },
     handleSuccess(res) {
       let { code, message, data } = res;
@@ -125,6 +156,15 @@ export default {
         this.$message.error("上传图片大小不能超过 2MB!");
       }
       return isLt2M;
+    },
+    getArticle(id) {
+      this.$api.getArticle({ id }).then(res => {
+        const { title, content, titleImage, labelids } = res.data.data[0];
+        this.title = title;
+        this.content = content;
+        this.titleImage = titleImage;
+        this.label = labelids.split(",").map(Number);
+      });
     }
   },
   computed: {

@@ -18,12 +18,16 @@
             </el-menu-item>
             <el-menu-item index="/blog">
               <i class="fa fa-pencil-square-o"></i>
-              <span slot="title">博客</span>
+              <span slot="title">博客编辑</span>
+            </el-menu-item>
+            <el-menu-item index="/blogList">
+              <i class="fa fa-list-ul"></i>
+              <span slot="title">博客列表</span>
             </el-menu-item>
             <!-- <el-menu-item index="/test">
               <i class="fa fa-globe"></i>
               <span slot="title">测试</span>
-            </el-menu-item> -->
+            </el-menu-item>-->
           </el-menu>
         </el-scrollbar>
       </el-aside>
@@ -52,7 +56,9 @@
             leave-active-class="animated fadeOut"
             mode="out-in"
           >
-            <router-view/>
+            <keep-alive include="blog">
+              <router-view/>
+            </keep-alive>
           </transition>
         </el-main>
       </el-container>
