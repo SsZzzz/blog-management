@@ -19,7 +19,7 @@
     </div>
     <div class="editor" :class="{'editorOpen':changed}">
       <div class="editorContent">
-        <textarea v-model="content"></textarea>
+        <textarea v-model="content" @scroll="handleScroll" ref="textarea"></textarea>
       </div>
       <div class="editorFooter">
         <div class="arrow">
@@ -43,7 +43,7 @@
       </div>
     </div>
     <div class="show" v-show="!changed">
-      <div class="showContent">
+      <div class="showContent" ref="showContent">
         <div v-html="compiledMarkdown" v-highlight></div>
       </div>
       <div class="showFooter">
@@ -165,6 +165,17 @@ export default {
         this.titleImage = titleImage;
         this.label = labelids.split(",").map(Number);
       });
+    },
+    handleScroll() {
+      let textareaScrollTop = this.$refs.textarea.scrollTop;
+      let textareaScrollHeight = this.$refs.textarea.scrollHeight;
+      let textareaClientHeight = this.$refs.textarea.clientHeight;
+      let pencent =
+        textareaScrollTop / (textareaScrollHeight - textareaClientHeight);
+      let showContentScrollHeight = this.$refs.showContent.scrollHeight;
+      let showContentClientHeight = this.$refs.showContent.clientHeight;
+      this.$refs.showContent.scrollTop =
+        pencent * (showContentScrollHeight - showContentClientHeight);
     }
   },
   computed: {
